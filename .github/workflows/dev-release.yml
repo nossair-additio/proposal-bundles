@@ -32,5 +32,6 @@ jobs:
           tag_name: ${{ steps.extract_branch_name.outputs.branch_name }}
           name: ${{ steps.extract_branch_name.outputs.branch_name }}
           body: Preliminary release based on branch ${{ github.ref }}
+          prerelease: true
         env:
           GITHUB_TOKEN: ${{ secrets.TOKEN_PERSONAL }}
