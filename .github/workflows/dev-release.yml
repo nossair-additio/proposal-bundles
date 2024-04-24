@@ -29,10 +29,8 @@ jobs:
       - name: Create or update release
         uses: softprops/action-gh-release@v2
         with:
-          files: ./your-artifact.zip
           tag_name: ${{ steps.extract_branch_name.outputs.branch_name }}
           name: ${{ steps.extract_branch_name.outputs.branch_name }}
           body: Preliminary release based on branch ${{ github.ref }}
-          overwrite: true
         env:
           GITHUB_TOKEN: ${{ secrets.TOKEN_PERSONAL }}
