@@ -3,8 +3,8 @@ name: Preliminary Release
 on:
   push:
     branches:
-      - 'version*'
-      - 'modules*'
+      - 'version/*'
+      - 'modules/*'
 
 jobs:
   preliminary_release:
