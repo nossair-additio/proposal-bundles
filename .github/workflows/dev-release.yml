@@ -26,29 +26,11 @@ jobs:
           fi
           echo "::set-output name=branch_name::$branch_name"
 
-      - name: Check if release exists
-        id: check_release
-        run: |
-          if curl --head --fail --silent --output /dev/null -u "${{ github.actor }}:${{ secrets.TOKEN_PERSONAL }}" "https://api.github.com/repos/${{ github.repository }}/releases/tags/${{ steps.extract_branch_name.outputs.branch_name }}"; then
-          echo "Release exists"
-          echo "::set-output name=release_exists::true"
-          else
-          echo "Release does not exist"
-          echo "::set-output name=release_exists::false"
-          fi
-
-      - name: Delete existing release
-        if: steps.check_release.outputs.release_exists == 'true'
-        run: |
-          curl -X DELETE -u "${{ github.actor }}:${{ secrets.TOKEN_PERSONAL }}" "https://api.github.com/repos/${{ github.repository }}/releases/${{ steps.extract_branch_name.outputs.branch_name }}"
-
-      - name: Create preliminary release
-        id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.TOKEN_PERSONAL }}
+      - name: Create or update release
+        uses: marvinpinto/action-automatic-releases@latest
         with:
-          tag_name: ${{ steps.extract_branch_name.outputs.branch_name }}
-          release_name: ${{ steps.extract_branch_name.outputs.branch_name }}
-          body: Preliminary release based on branch ${{ github.ref }}
+          repo_token: ${{ secrets.TOKEN_PERSONAL }}
           prerelease: true
+          default_tag_name: ${{ steps.extract_branch_name.outputs.branch_name }}
+          default_release_name: ${{ steps.extract_branch_name.outputs.branch_name }}
+          body: Preliminary release based on branch ${{ github.ref }}
