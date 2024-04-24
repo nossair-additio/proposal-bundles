@@ -67,6 +67,14 @@ El nom que obtenim sol ser per exemple un `version/10.x` o `modules/AdditioCoreI
 > - `bower install additio-core@10.x`
 > - `bower install additio-core@additio-core-improvements-v1.2`
 
+¿Com treballarem a local?
+
+1. Eliminarem els bundles de `bower_components`.
+2. Ficarem un `gitignore` per evitar detecció de canvis i tornar-los a pujar.
+3. Tindrem dos escenaris per actualitzar els bundles:
+  - Fer ús del propi sistema actual que tenim els `frontenders` per moure els bundles, aixi podem continuar desenvolupant i fent proves com sempre.
+  - Fer ús d'un nou sistema per que els desenvolupadors puguin actualizar els bundles de la seva branca, será un script que indicant el nom de la branca s'actualitzi tot automaticament, tant imatges com bundles de tots llocs. (Pensar una idea una mica més automatizada).
+
 #### Problemes
 
 1. Les _Github Actions_ tenen un cost i ja estem abusant una mica, però crec que ens toca abusar d'elles si volem un esquema CI/CD 'perfecte'.
