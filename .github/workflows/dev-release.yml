@@ -26,6 +26,17 @@ jobs:
           fi
           echo "::set-output name=branch_name::$branch_name"
 
+      - name: Node.js setup
+        uses: actions/setup-node@v2
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build
+        run: npm run build
+
       - name: Create or update release
         uses: softprops/action-gh-release@v2
         with:
@@ -33,5 +44,10 @@ jobs:
           name: ${{ steps.extract_branch_name.outputs.branch_name }}
           body: Preliminary release based on branch ${{ github.ref }}
           prerelease: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.TOKEN_PERSONAL }}
+
+      - name: Upload release asset
+        run: gh release upload ${{ steps.extract_branch_name.outputs.branch_name }} ./dist/* --clobber
         env:
           GITHUB_TOKEN: ${{ secrets.TOKEN_PERSONAL }}
