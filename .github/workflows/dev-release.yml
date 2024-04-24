@@ -10,6 +10,17 @@ jobs:
   preliminary_release:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: npm install
+
       - name: Get branch name
         id: get_branch_name
         run: echo "::set-output name=branch_name::${{ github.ref }}"
@@ -25,14 +36,6 @@ jobs:
             branch_name="${BASH_REMATCH[1]}"  # Mantener el nombre del módulo
           fi
           echo "::set-output name=branch_name::$branch_name"
-
-      - name: Node.js setup
-        uses: actions/setup-node@v2
-        with:
-          node-version: '20'
-
-      - name: Install dependencies
-        run: npm install
 
       - name: Build
         run: npm run build
