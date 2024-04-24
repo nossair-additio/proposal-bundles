@@ -27,10 +27,12 @@ jobs:
           echo "::set-output name=branch_name::$branch_name"
 
       - name: Create or update release
-        uses: marvinpinto/action-automatic-releases@latest
+        uses: softprops/action-gh-release@v2
         with:
-          repo_token: ${{ secrets.TOKEN_PERSONAL }}
-          prerelease: true
-          default_tag_name: ${{ steps.extract_branch_name.outputs.branch_name }}
-          default_release_name: ${{ steps.extract_branch_name.outputs.branch_name }}
+          files: ./your-artifact.zip
+          tag_name: ${{ steps.extract_branch_name.outputs.branch_name }}
+          name: ${{ steps.extract_branch_name.outputs.branch_name }}
           body: Preliminary release based on branch ${{ github.ref }}
+          overwrite: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.TOKEN_PERSONAL }}
